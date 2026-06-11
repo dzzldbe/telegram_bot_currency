@@ -15,7 +15,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
-session = requests.Session()  # Tcp tunneling?
+session = requests.Session()  # Tcp , Keeps HTTP alive, avoids new ssl handshakes
 
 
 telegram_token = os.getenv(
@@ -24,12 +24,16 @@ telegram_token = os.getenv(
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat is None:
+        return
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!"
     )
 
 
 async def check_rate(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message is None:
+        return
     user_input = update.message.text.lower().split(" ")
     if len(user_input) != 2:
         await update.message.reply_text("Please input exactly 2 currencies")
