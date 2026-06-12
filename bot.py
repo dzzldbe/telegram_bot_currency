@@ -83,5 +83,5 @@ if __name__ == "__main__":
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), check_rate)
     application.add_handler(show_cur_handler)
     application.add_handler(echo_handler)
-
+    print("Bot is running")
     application.run_polling()
